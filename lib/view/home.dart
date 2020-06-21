@@ -12,7 +12,7 @@ class _HomeState extends State<Home> {
   int _offSet = 0;
   
   Future<Map> _getGif() async{   
-    final _APIKEY        = 'LwP25rDNm9cleJeqKmordrQseGqzW51h';
+    final _APIKEY        = '';
     final _URL_TOPGIFS   = 'https://api.giphy.com/v1/gifs/trending?api_key=$_APIKEY&limit=20&rating=G';
     final _URL_SEARCHGIF = 'https://api.giphy.com/v1/gifs/search?api_key=$_APIKEY&q=$_search&limit=20&offset=$_offSet&rating=G&lang=pt';
 
