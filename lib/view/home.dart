@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gif_play/view/gif_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:share/share.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,7 +15,7 @@ class _HomeState extends State<Home> {
   int _offSet = 0;
 
   Future<Map> _getGif() async {
-    final _APIKEY = '';
+    const _APIKEY = '';
     final _URL_TOPGIFS =
         'https://api.giphy.com/v1/gifs/trending?api_key=$_APIKEY&limit=20&rating=G';
     final _URL_SEARCHGIF =
@@ -57,6 +60,7 @@ class _HomeState extends State<Home> {
               onSubmitted: (text) {
                 setState(() {
                   _search = text;
+                  _offSet = 0;
                 });
               },
             ),
@@ -116,11 +120,24 @@ class _HomeState extends State<Home> {
                 height: 300.0,
                 fit: BoxFit.cover,
               ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          GifPage(snapshot.data["data"][index])),
+                );
+              },
+              onLongPress: () {
+                Share.share(snapshot.data["data"][index]["images"]
+                    ["fixed_height"]["url"]);
+              },
             );
           } else {
             return Container(
               child: GestureDetector(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
                       Icons.add,
@@ -136,6 +153,11 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
+                onTap: () {
+                  setState(() {
+                    _offSet += 19;
+                  });
+                },
               ),
             );
           }
